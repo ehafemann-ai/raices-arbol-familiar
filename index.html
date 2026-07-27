@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f2ec" />
+    <meta name="description" content="Árbol genealógico interactivo y archivo familiar." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.85em' font-size='58'%3E🌳%3C/text%3E%3C/svg%3E" />
+    <title>Raíces — Árbol familiar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=20260723-6" />
+  </head>
+  <body class="tree-only family-locked">
+    <header class="site-header">
+      <a class="brand" href="#tree" aria-label="Raíces, inicio">
+        <span class="brand-mark" aria-hidden="true">♧</span>
+        <span><strong>Raíces</strong><small>SEPÚLVEDA · MUNITA</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Navegación principal">
+        <a class="active" href="#tree">Árbol</a>
+        <a href="#archive">Archivo</a>
+        <a href="#stories">Historias</a>
+      </nav>
+      <button class="avatar-button" aria-label="Abrir perfil familiar">SM</button>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Mapa familiar Sepúlveda Munita</p>
+          <h1 id="page-title">Personas, parejas<br />y generaciones.</h1>
+        </div>
+        <div class="hero-copy">
+          <p>Un archivo familiar vivo: descubre relaciones, guarda recuerdos y reúne fotografías en un solo lugar.</p>
+          <div class="stats" aria-label="Resumen familiar">
+            <span><b id="people-count">0</b> personas</span>
+            <span><b id="story-count">0</b> historias</span>
+            <span><b id="file-count">0</b> archivos</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="family-app" id="tree" aria-label="Árbol genealógico">
+        <div class="tree-panel">
+          <label class="tree-search" for="search">
+            <span aria-hidden="true">⌕</span>
+            <span class="sr-only">Buscar una persona por nombre</span>
+            <input id="search" type="search" placeholder="Buscar por nombre" autocomplete="off" />
+            <small id="search-result-summary" aria-live="polite"></small>
+            <button id="clear-search" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
+          </label>
+          <div class="search-suggestions" id="search-suggestions" role="listbox" aria-label="Resultados de búsqueda" hidden></div>
+          <button class="cloud-status" id="cloud-status" type="button" aria-haspopup="dialog">
+            <i aria-hidden="true"></i><span>Conectando…</span>
+          </button>
+          <div class="toolbar">
+            <label class="select-field">
+              <span class="sr-only">Filtrar por rama</span>
+              <select id="branch-filter"><option value="all">Todas las ramas</option></select>
+            </label>
+            <div class="legend" aria-label="Cómo leer el mapa">
+              <span><i class="legend-person"></i> Persona</span>
+              <span><i class="legend-couple"></i> Pareja</span>
+              <span><i class="legend-child"></i> Hijos</span>
+            </div>
+          </div>
+
+          <nav class="generation-picker" aria-label="Seleccionar generaciones">
+            <div class="generation-picker-copy">
+              <strong>Generaciones</strong>
+              <span id="generation-summary">Mostrando G1–G2</span>
+            </div>
+            <div class="generation-buttons" id="generation-buttons"></div>
+          </nav>
+          <div class="tree-viewport" id="tree-viewport">
+            <div class="tree-canvas" id="tree-canvas" aria-live="polite"></div>
+            <div class="empty-state" id="empty-state" hidden>
+              <span>⌕</span><h2>No encontramos a esa persona</h2><p>Prueba con otro nombre o cambia la rama.</p>
+            </div>
+          </div>
+          <div class="zoom-controls" aria-label="Controles de zoom">
+            <button id="zoom-out" aria-label="Alejar">−</button>
+            <output id="zoom-value">100%</output>
+            <button id="zoom-in" aria-label="Acercar">＋</button>
+            <button id="zoom-fit" class="fit-button">Ver completo</button>
+          </div>
+        </div>
+
+        <aside class="profile-panel" id="profile-panel" aria-live="polite"></aside>
+      </section>
+
+      <section class="features" id="stories">
+        <p class="eyebrow">Un archivo familiar vivo</p>
+        <h2>Cada persona puede guardar<br />mucho más que un nombre.</h2>
+        <div class="feature-grid">
+          <article><span>01</span><h3>Relaciones</h3><p>Agrega ascendientes, descendientes y parejas directamente desde cada ficha.</p></article>
+          <article><span>02</span><h3>Historias</h3><p>Conserva recuerdos, anécdotas, oficios y fechas importantes en contexto.</p></article>
+          <article id="archive"><span>03</span><h3>Archivo</h3><p>Reúne fotografías y documentos históricos junto a la persona correspondiente.</p></article>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="person-dialog">
+      <form id="person-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow" id="dialog-kicker">Nueva relación</p><h2 id="dialog-title">Agregar familiar</h2></div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Cerrar">×</button>
+        </div>
+        <div class="person-form-scroll">
+          <input type="hidden" name="relation" />
+          <label>Nombres<input name="givenNames" required maxlength="80" placeholder="Ej. Elena Sofía" /></label>
+          <div class="name-grid">
+            <label>Primer apellido<input name="firstSurname" maxlength="60" placeholder="Apellido del padre" /></label>
+            <label>Segundo apellido<input name="secondSurname" maxlength="60" placeholder="Apellido de la madre" /></label>
+          </div>
+          <p class="surname-hint" id="surname-hint" hidden></p>
+          <fieldset class="parent-editor" id="child-parent-editor" hidden>
+            <legend>Progenitores de este hijo</legend>
+            <label>¿Con quién tuvo este hijo?
+              <select name="childFamilyId" aria-describedby="child-parent-help"></select>
+            </label>
+            <p id="child-parent-help">Puedes elegir a esta persona sola o una pareja concreta. Las parejas posteriores no se asignarán automáticamente.</p>
+          </fieldset>
+          <label>Sexo / rol parental
+            <select name="gender">
+              <option value="unspecified">Sin especificar</option>
+              <option value="female">Mujer / madre</option>
+              <option value="male">Hombre / padre</option>
+              <option value="other">Otro</option>
+            </select>
+          </label>
+          <label>Fecha de nacimiento<input name="birthDate" type="date" /></label>
+          <label>Fecha de nacimiento aproximada o incompleta<input name="birthDateText" maxlength="50" placeholder="Ej. 1708, circa 1840" /></label>
+          <label>Lugar de nacimiento<input name="birthPlace" maxlength="160" placeholder="Ej. Linares, Maule, Chile" /></label>
+          <label>Fecha de fallecimiento<input name="deathDate" type="date" /></label>
+          <label>Fecha de fallecimiento aproximada o incompleta<input name="deathDateText" maxlength="50" placeholder="Ej. antes de 1845" /></label>
+          <label>Lugar de fallecimiento<input name="deathPlace" maxlength="160" placeholder="Ej. Santiago, Chile" /></label>
+          <label>Fecha de matrimonio o unión<input name="marriageDateText" maxlength="50" placeholder="Ej. 1729 o 11/09/1926" /></label>
+          <label>Profesión u ocupación<input name="profession" maxlength="120" placeholder="Ej. Ingeniera agrónoma" /></label>
+          <label>Ciudad de residencia u otro lugar asociado<input name="location" maxlength="120" placeholder="Ej. Linares" /></label>
+          <fieldset class="parent-editor" id="parent-editor" hidden>
+            <legend>Padres / familia de origen</legend>
+            <label>Seleccionar padres
+              <select name="parentFamilyId" aria-describedby="parent-editor-help"></select>
+            </label>
+            <p id="parent-editor-help">Elige la pareja familiar correcta. También puedes dejar a la persona sin padres asignados.</p>
+          </fieldset>
+          <label>Rama familiar<select name="branch" required></select></label>
+          <label>Nota breve<textarea name="bio" rows="3" maxlength="280" placeholder="Una frase sobre esta persona…"></textarea></label>
+        </div>
+        <div class="form-actions"><button type="button" class="button secondary" data-close-dialog>Cancelar</button><button id="save-person-button" class="button primary" type="button">Guardar persona</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="story-dialog">
+      <form id="story-form" method="dialog">
+        <div class="dialog-heading"><div><p class="eyebrow">Memoria familiar</p><h2>Agregar una historia</h2></div><button class="icon-button" type="button" data-close-story aria-label="Cerrar">×</button></div>
+        <label>Título<input name="title" required maxlength="100" placeholder="Ej. Los veranos en el sur" /></label>
+        <label>Historia<textarea name="body" required rows="6" maxlength="1200" placeholder="Escribe el recuerdo aquí…"></textarea></label>
+        <div class="form-actions"><button type="button" class="button secondary" data-close-story>Cancelar</button><button class="button primary" value="submit">Guardar historia</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="auth-dialog" class="auth-dialog">
+      <form id="auth-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow">Sitio privado</p><h2 id="auth-title">Acceso familiar</h2></div>
+          <button class="icon-button auth-close" type="button" data-close-auth aria-label="Cerrar">×</button>
+        </div>
+        <p class="auth-copy" id="auth-copy">Ingresa la clave compartida para ver y editar el árbol familiar.</p>
+        <label>Clave familiar<input name="editKey" type="password" autocomplete="current-password" required minlength="10" maxlength="128" placeholder="Clave de acceso" /></label>
+        <p class="auth-message" id="auth-message" aria-live="polite"></p>
+        <div class="form-actions"><button class="button primary" type="submit">Entrar al árbol</button></div>
+      </form>
+      <div class="auth-session" id="auth-session" hidden>
+        <div class="dialog-heading"><div><p class="eyebrow">Sesión familiar</p><h2>Acceso habilitado</h2></div><button class="icon-button" type="button" data-close-auth aria-label="Cerrar">×</button></div>
+        <p>Puedes leer y editar el árbol. Los cambios se guardan automáticamente en Supabase.</p>
+        <div class="form-actions"><button class="button secondary" type="button" data-sign-out>Cerrar sesión</button><button class="button primary" type="button" data-close-auth>Volver al árbol</button></div>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="app.js?v=20260728-55"></script>
+  </body>
+</html>
