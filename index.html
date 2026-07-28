@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20260723-6" />
+    <link rel="stylesheet" href="styles.css?v=20260727-7" />
   </head>
   <body class="tree-only family-locked">
     <header class="site-header">
@@ -80,12 +80,19 @@
               <span>⌕</span><h2>No encontramos a esa persona</h2><p>Prueba con otro nombre o cambia la rama.</p>
             </div>
           </div>
-          <div class="zoom-controls" aria-label="Controles de zoom">
-            <button id="zoom-out" aria-label="Alejar">−</button>
-            <output id="zoom-value">100%</output>
-            <button id="zoom-in" aria-label="Acercar">＋</button>
-            <button id="zoom-fit" class="fit-button">Ver completo</button>
-          </div>
+          <aside class="zoom-controls" aria-label="Controles de vista">
+            <div class="zoom-heading">
+              <span>Vista</span>
+              <output id="zoom-value" for="zoom-slider">100%</output>
+            </div>
+            <div class="zoom-scale">
+              <button id="zoom-in" class="zoom-step" type="button" aria-label="Acercar" title="Acercar">＋</button>
+              <input id="zoom-slider" type="range" min="8" max="125" step="1" value="100" aria-label="Nivel de zoom" />
+              <button id="zoom-out" class="zoom-step" type="button" aria-label="Alejar" title="Alejar">−</button>
+            </div>
+            <button id="zoom-reset" class="zoom-action" type="button">Volver a 100%</button>
+            <button id="zoom-fit" class="zoom-action fit-button" type="button">Ver árbol completo</button>
+          </aside>
         </div>
 
         <aside class="profile-panel" id="profile-panel" aria-live="polite"></aside>
@@ -182,6 +189,6 @@
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script type="module" src="app.js?v=20260728-55"></script>
+    <script type="module" src="app.js?v=20260727-56"></script>
   </body>
 </html>
