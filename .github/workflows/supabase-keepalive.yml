@@ -17,21 +17,19 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          FAMILY_EDIT_KEY: ${{ secrets.FAMILY_EDIT_KEY }}
-          TREE_ID: ${{ vars.TREE_ID }}
         run: |
           set -euo pipefail
           test -n "$SUPABASE_URL"
           test -n "$SUPABASE_ANON_KEY"
-          test -n "$FAMILY_EDIT_KEY"
-          test -n "$TREE_ID"
 
-          url="${SUPABASE_URL%/}/rest/v1/family_snapshots?tree_id=eq.${TREE_ID}&select=revision"
+          url="${SUPABASE_URL%/}/rest/v1/rpc/raices_keepalive"
           status="$(
             curl -sS -o /tmp/raices-keepalive.json -w "%{http_code}" \
+              -X POST \
               -H "apikey: ${SUPABASE_ANON_KEY}" \
               -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
-              -H "x-family-edit-key: ${FAMILY_EDIT_KEY}" \
+              -H "Content-Type: application/json" \
+              -d '{}' \
               "$url"
           )"
 

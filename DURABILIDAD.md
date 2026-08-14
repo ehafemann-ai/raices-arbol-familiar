@@ -12,10 +12,8 @@ En GitHub, agregar estos valores al repositorio:
 
 - Secret `SUPABASE_URL`: `https://czjjzfovdnrsqowecuol.supabase.co`
 - Secret `SUPABASE_ANON_KEY`: la clave publica anon/publishable usada por el frontend.
-- Secret `FAMILY_EDIT_KEY`: la clave familiar compartida.
-- Variable `TREE_ID`: `4f5c6836-2efb-4a69-9b69-9e0a3c527001`
 
-El workflow hace una consulta de solo lectura a `family_snapshots` tres veces al dia. Si falla, GitHub marca la ejecucion en rojo.
+El workflow llama la funcion publica `raices_keepalive()` tres veces al dia. Esa funcion solo devuelve estado y hora del servidor; no entrega personas, relaciones, historias ni archivos, y no necesita la clave familiar.
 
 ## Limites importantes
 
