@@ -15,6 +15,8 @@ En GitHub, agregar estos valores al repositorio:
 
 El workflow llama la funcion publica `raices_keepalive()` tres veces al dia. Esa funcion solo devuelve estado y hora del servidor; no entrega personas, relaciones, historias ni archivos, y no necesita la clave familiar.
 
+El repositorio tambien incluye `.github/workflows/repository-keepalive.yml`, que hace un commit tecnico mensual en `.github/keepalive-stamp.txt`. Esto mantiene actividad en GitHub para reducir el riesgo de que se desactiven los workflows programados del repositorio publico.
+
 ## Limites importantes
 
 - El keepalive reduce el riesgo de pausa, pero no es una garantia contractual.
